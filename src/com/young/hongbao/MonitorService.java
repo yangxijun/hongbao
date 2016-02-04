@@ -26,11 +26,13 @@ import android.widget.RemoteViews;
  */
 public class MonitorService extends AccessibilityService {
     private boolean mLuckyClicked;
+	private boolean mLuckyGot;
 	private int mCount;
 
     @Override
     public void onAccessibilityEvent(AccessibilityEvent event) {
         final int eventType = event.getEventType();
+		final SharedPreferences sp = LuckyApplication.getSharedPreferences();
 
         if (eventType == AccessibilityEvent.TYPE_NOTIFICATION_STATE_CHANGED) {
             unlockScreen();
@@ -62,6 +64,8 @@ public class MonitorService extends AccessibilityService {
         if (eventType == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED) {
             String clazzName = event.getClassName().toString();
             if (clazzName.equals("com.tencent.mm.ui.LauncherUI")) {
+				mLuckyGot = false;
+
                 AccessibilityNodeInfo nodeInfo = event.getSource();
                 if (null != nodeInfo) {
                     List<AccessibilityNodeInfo> list = nodeInfo.findAccessibilityNodeInfosByText("领取红包");
@@ -88,7 +92,6 @@ public class MonitorService extends AccessibilityService {
 
             if (clazzName.equals("com.tencent.mm.plugin.luckymoney.ui.LuckyMoneyReceiveUI")) {
 				// 判断是否需要抢红包
-				final SharedPreferences sp = LuckyApplication.getSharedPreferences();
 				boolean autoGet = sp.getBoolean(LuckyApplication.SP_AUTO_GET, true);
 				if (!autoGet) {
 
@@ -119,11 +122,19 @@ public class MonitorService extends AccessibilityService {
 							@Override
 							public void run() {
 								traverseNode(nodeInfo);
+								mLuckyGot = true;
 							}
 						});
 					}
 				}).start();
             }
+
+			if (clazzName.equals("com.tencent.mm.plugin.luckymoney.ui.LuckyMoneyDetailUI")) {
+				if (mLuckyGot) {
+					sp.edit().putLong(LuckyApplication.SP_LAST_GET_TIME, System.currentTimeMillis()).commit();
+					mLuckyGot = false;
+				}
+			}
         }
     }
 

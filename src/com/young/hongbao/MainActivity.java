@@ -28,8 +28,7 @@ import android.widget.TextView.OnEditorActionListener;
 import android.widget.Toast;
 
 public class MainActivity extends Activity {
-    private static final Intent sSettingsIntent =
-            new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS);
+	private static final Intent sSettingsIntent = new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS);
 
     private TextView mAccessibleLabel;
     private TextView mNotificationLabel;
@@ -37,6 +36,7 @@ public class MainActivity extends Activity {
 	private CheckBox mAutoGet;
 	private CheckBox mPlaySound;
 	private EditText mDelay;
+	private TextView mLastGetTime;
 
 	private SharedPreferences mSp;
 
@@ -117,6 +117,10 @@ public class MainActivity extends Activity {
 				startActivity(intent);
 			}
 		});
+
+		mLastGetTime = (TextView) findViewById(R.id.last_get_time);
+		long time = mSp.getLong(LuckyApplication.SP_LAST_GET_TIME, 0);
+		mLastGetTime.setText("上次抢红包时间 " + LuckyApplication.getDateByTime(time));
     }
 
 
@@ -138,11 +142,14 @@ public class MainActivity extends Activity {
             mNotificationLabel.setText(isNotificationEnabled ? "接收通知已打开" : "接收通知未打开");
 
             if (isAccessibilityEnabled && isNotificationEnabled) {
-				mLabelText.setText("ok!!!!");
+				mLabelText.setText("配置完毕,可以正常使用了");
             } else {
                 mLabelText.setText("请把两个开关都打开开始抢红包");
             }
         }
+
+		long time = mSp.getLong(LuckyApplication.SP_LAST_GET_TIME, 0);
+		mLastGetTime.setText("上次抢红包时间 " + LuckyApplication.getDateByTime(time));
     }
 
     public void onNotificationEnableButtonClicked(View view) {
@@ -150,7 +157,7 @@ public class MainActivity extends Activity {
     }
 
     public void onSettingsClicked(View view) {
-        startActivity(sSettingsIntent);
+		startActivity(sSettingsIntent);
     }
 
     private boolean isAccessibleEnabled() {
