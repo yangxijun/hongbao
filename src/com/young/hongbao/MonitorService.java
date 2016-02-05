@@ -94,11 +94,11 @@ public class MonitorService extends AccessibilityService {
 				// 判断是否需要抢红包
 				boolean autoGet = sp.getBoolean(LuckyApplication.SP_AUTO_GET, true);
 				if (!autoGet) {
-
-					if (sp.getBoolean(LuckyApplication.SP_PLAY_SOUND, true)) {
-						playSound();
-					}
 					return;
+				}
+
+				if (sp.getBoolean(LuckyApplication.SP_PLAY_SOUND, true)) {
+					playSound();
 				}
 
 				final AccessibilityNodeInfo nodeInfo = event.getSource();

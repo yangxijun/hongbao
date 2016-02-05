@@ -70,9 +70,6 @@ public class MainActivity extends Activity {
 
 				mDelay.setVisibility(isChecked ? View.VISIBLE
 						: View.INVISIBLE);
-
-				mPlaySound.setVisibility(!isChecked ? View.VISIBLE
-						: View.INVISIBLE);
 			}
 		});
 
@@ -96,8 +93,6 @@ public class MainActivity extends Activity {
 		mPlaySound = (CheckBox) findViewById(R.id.play_music);
 		mPlaySound.setChecked(mSp.getBoolean(LuckyApplication.SP_PLAY_SOUND,
 				true));
-		mPlaySound.setVisibility(!mAutoGet.isChecked() ? View.VISIBLE
-				: View.INVISIBLE);
 		mPlaySound.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
 			@Override
