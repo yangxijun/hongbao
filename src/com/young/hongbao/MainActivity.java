@@ -32,6 +32,7 @@ public class MainActivity extends Activity {
 
     private TextView mAccessibleLabel;
     private TextView mNotificationLabel;
+	private CheckBox mStart;
     private TextView mLabelText;
 	private CheckBox mAutoGet;
 	private CheckBox mPlaySound;
@@ -58,6 +59,17 @@ public class MainActivity extends Activity {
         }
 
 		mSp = LuckyApplication.getSharedPreferences();
+
+		mStart = (CheckBox) findViewById(R.id.start);
+		mStart.setChecked(mSp.getBoolean(LuckyApplication.SP_START, true));
+		mStart.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				mSp.edit().putBoolean(LuckyApplication.SP_START, isChecked).commit();
+			}
+		});
+
 		mAutoGet = (CheckBox) findViewById(R.id.auto_get);
 		mAutoGet.setChecked(mSp.getBoolean(LuckyApplication.SP_AUTO_GET, true));
 

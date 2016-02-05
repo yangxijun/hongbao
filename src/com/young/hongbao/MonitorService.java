@@ -34,6 +34,11 @@ public class MonitorService extends AccessibilityService {
         final int eventType = event.getEventType();
 		final SharedPreferences sp = LuckyApplication.getSharedPreferences();
 
+		// 检测是否需要处理
+		if (!sp.getBoolean(LuckyApplication.SP_START, true)) {
+			return;
+		}
+
         if (eventType == AccessibilityEvent.TYPE_NOTIFICATION_STATE_CHANGED) {
             unlockScreen();
             mLuckyClicked = false;

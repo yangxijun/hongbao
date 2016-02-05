@@ -10,6 +10,7 @@ import android.os.Handler;
 
 public class LuckyApplication extends Application {
 
+	public static final String SP_START = "sp_start";
 	public static final String SP_AUTO_GET = "sp_auto_get";
 	public static final String SP_GET_DELAY = "sp_get_delay";
 	public static final String SP_PLAY_SOUND = "sp_play_sound";
