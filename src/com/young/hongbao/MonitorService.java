@@ -173,21 +173,6 @@ public class MonitorService extends AccessibilityService {
 
                 traverseNode(childNode);
             }
-        } else {
-            CharSequence text = node.getText();
-            if (null != text && text.length() > 0) {
-                String str = text.toString();
-//                if (str.contains("领取红包")) {
-//                    mContainsLucky = true;
-//                    AccessibilityNodeInfo cellNode = node.getParent().getParent().getParent();
-//                    if (null != cellNode) mNodeInfoList.add(cellNode);
-//                }
-//
-//                if (str.contains("拆红包")) {
-//                    mContainsOpenLucky = true;
-//                    mNodeInfoList.add(node);
-//                }
-            }
         }
     }
 
