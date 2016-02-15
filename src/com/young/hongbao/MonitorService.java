@@ -66,6 +66,7 @@ public class MonitorService extends AccessibilityService {
             }
         }
 
+		// 聊天框
         if (eventType == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED) {
             String clazzName = event.getClassName().toString();
             if (clazzName.equals("com.tencent.mm.ui.LauncherUI")) {
